@@ -25,12 +25,6 @@
             android:text="Technical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CAD 50000"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 
     </LinearLayout>
@@ -39,6 +33,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="CAD 50000"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <Button
             android:id="@+id/btn_edit"
