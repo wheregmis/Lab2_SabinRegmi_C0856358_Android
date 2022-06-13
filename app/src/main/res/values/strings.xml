@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lab2_SabinRegmi_C0856358_Android</string>
+    <string name="submit">Submit</string>
+    <string name="update">Update</string>
 </resources>

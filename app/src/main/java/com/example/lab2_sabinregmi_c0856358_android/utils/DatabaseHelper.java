@@ -22,7 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME,null, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE " + TABLE_NAME + "(" +
@@ -43,13 +42,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // insert
     /**
-     * add employee - insert employee into employee table
+     * add employee - insert product into product table
      * @param name
      * @param description
      * @param price
      * @return boolean value - true (inserted) false (not inserted)
      * */
-    public boolean addEmployee(String name, String description, double price) {
+    public boolean addProduct(String name, String description, double price) {
         // we need a writeable instance of SQLite database
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 
@@ -64,24 +63,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Query database - select all the employees
+     * Query database - select all the products
      * @return cursor
      * */
-    public Cursor getAllEmployees() {
+    public Cursor getAllProducts() {
         // we need a readable instance of database
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME, null);
     }
 
     /**
-     * Update employee in database
+     * Update product in database
      * @param id
      * @param name
      * @param description
      * @param price
      * @return boolean value - true (successful)
      * */
-    public boolean updateEmployee(int id, String name, String description, double price) {
+    public boolean updateProduct(int id, String name, String description, double price) {
         // we need a writeable instance of database
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -97,20 +96,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Delete employee from database table
+     * Delete product from database table
      * @param id
      * @return true if is successful
      * */
-    public boolean deleteEmployee(int id) {
+    public boolean deleteProduct(int id) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         // the delete method associated to the SQLite database instance returns the number of rows affected
         return sqLiteDatabase.delete(TABLE_NAME,
                 COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}) > 0;
     }
-
-
-
 
 
 }
