@@ -32,10 +32,10 @@ public class ProductAdapter extends ArrayAdapter {
     DatabaseHelper sqLiteDatabase;
 
 
-    public ProductAdapter(@NonNull Context context, int resource, List<Product> productList) {
+    public ProductAdapter(@NonNull Context context, int resource, List<Product> productList, DatabaseHelper sqLiteDatabase) {
         super(context, resource, productList);
         this.productList = productList;
-        //this.sqLiteDatabase = sqLiteDatabase;
+        this.sqLiteDatabase = sqLiteDatabase;
         this.layoutRes = resource;
         this.context = context;
     }
@@ -59,6 +59,7 @@ public class ProductAdapter extends ArrayAdapter {
         v.findViewById(R.id.btn_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: "+product.getId());
                 updateProduct(product);
             }
 
@@ -82,7 +83,7 @@ public class ProductAdapter extends ArrayAdapter {
                     @Override
                     public void onClick(View v) {
                         String name = etName.getText().toString().trim();
-                        String price = etPrice.getText().toString().trim();
+                        String price = etPrice.getText().toString();
                         String desc = etDesc.getText().toString();
 
                         if (name.isEmpty()) {
@@ -96,6 +97,8 @@ public class ProductAdapter extends ArrayAdapter {
                             etPrice.requestFocus();
                             return;
                         }
+
+                        Log.d(TAG, "onClick: "+product.getId());
 
                         if (sqLiteDatabase.updateProduct(product.getId(), name, desc, Double.parseDouble(price)))
                             loadProducts();
@@ -119,6 +122,7 @@ public class ProductAdapter extends ArrayAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         if (sqLiteDatabase.deleteProduct(product.getId()))
                             loadProducts();
+                        Log.d(TAG, "onClick: "+sqLiteDatabase.deleteProduct(product.getId()));
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -141,11 +145,11 @@ public class ProductAdapter extends ArrayAdapter {
     }
 
     private void loadProducts() {
-        String sql = "SELECT * FROM product";
+        //String sql = "SELECT * FROM product";
         //Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
 
         Cursor cursor = sqLiteDatabase.getAllProducts();
-        productList.clear();
+        //productList.clear();
         if (cursor.moveToFirst()) {
             do {
                 // create an product instance
@@ -153,7 +157,7 @@ public class ProductAdapter extends ArrayAdapter {
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
-                        cursor.getDouble(4)
+                        cursor.getDouble(3)
                 ));
             } while (cursor.moveToNext());
             cursor.close();
