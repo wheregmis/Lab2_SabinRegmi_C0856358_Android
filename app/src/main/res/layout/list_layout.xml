@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="match_parent"
@@ -51,6 +52,14 @@
             android:layout_margin="5dp"
             android:background="#273"
             android:text="Edit"
+            android:textColor="#fff" />
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#273"
+            android:text="Delete"
             android:textColor="#fff" />
     </LinearLayout>
 </LinearLayout>

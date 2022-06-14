@@ -8,10 +8,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/et_searchbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type to search"
+        android:layout_marginTop="16dp"
+        />
+
     <ListView
         android:id="@+id/lv_products"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
     </ListView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

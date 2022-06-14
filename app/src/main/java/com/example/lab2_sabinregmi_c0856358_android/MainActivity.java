@@ -6,8 +6,11 @@ import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     ListView productsListView;
     List<Product> tempProductList;
 
+    private ProductAdapter productAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,57 +42,77 @@ public class MainActivity extends AppCompatActivity {
         tempProductList = new ArrayList<>();
         sqLiteDatabase = new DatabaseHelper(this);
 
+        EditText theFilter = (EditText) findViewById(R.id.et_searchbar);
         productsListView = findViewById(R.id.lv_products);
         FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
-//                View view2 = layoutInflater.inflate(R.layout.dialog_add_products, null);
-//                builder.setView(view2);
-//                final AlertDialog alertDialog = builder.create();
-//                alertDialog.show();
-//
-//                final EditText etName = view2.findViewById(R.id.et_name);
-//                final EditText etPrice = view2.findViewById(R.id.et_price);
-//                final EditText etDesc = view2.findViewById(R.id.et_description);
-//
-//                view2.findViewById(R.id.btn_add_employee).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        String name = etName.getText().toString().trim();
-//                        String price = etPrice.getText().toString().trim();
-//                        String desc = etDesc.getText().toString();
-//
-//                        if (name.isEmpty()) {
-//                            etName.setError("name field cannot be empty");
-//                            etName.requestFocus();
-//                            return;
-//                        }
-//
-//                        if (desc.isEmpty()) {
-//                            etDesc.setError("name field cannot be empty");
-//                            etDesc.requestFocus();
-//                            return;
-//                        }
-//
-//                        if (price.isEmpty()) {
-//                            etPrice.setError("Price cannot be empty");
-//                            etPrice.requestFocus();
-//                            return;
-//                        }
-//
-////                        if (sqLiteDatabase.addProduct(name, desc, Double.parseDouble(price)))
-////                            loadProducts();
-//                        alertDialog.dismiss();
-//                    }
-//                });
-//            }
-//        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+                View view2 = layoutInflater.inflate(R.layout.dialog_add_products, null);
+                builder.setView(view2);
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                final EditText etName = view2.findViewById(R.id.et_name);
+                final EditText etPrice = view2.findViewById(R.id.et_price);
+                final EditText etDesc = view2.findViewById(R.id.et_description);
+
+                view2.findViewById(R.id.btn_add_employee).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = etName.getText().toString().trim();
+                        String price = etPrice.getText().toString().trim();
+                        String desc = etDesc.getText().toString();
+
+                        if (name.isEmpty()) {
+                            etName.setError("name field cannot be empty");
+                            etName.requestFocus();
+                            return;
+                        }
+
+                        if (desc.isEmpty()) {
+                            etDesc.setError("name field cannot be empty");
+                            etDesc.requestFocus();
+                            return;
+                        }
+
+                        if (price.isEmpty()) {
+                            etPrice.setError("Price cannot be empty");
+                            etPrice.requestFocus();
+                            return;
+                        }
+
+                        if (sqLiteDatabase.addProduct(name, desc, Double.parseDouble(price)))
+                            loadProducts();
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+        });
 
         loadTempProducts();
         loadProducts();
+
+        theFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                (MainActivity.this).productAdapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     private void loadTempProducts() {
@@ -117,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // create an adapter to display the employees
-        ProductAdapter productAdapter = new ProductAdapter(this, R.layout.list_layout, productList);
+        productAdapter = new ProductAdapter(this, R.layout.list_layout, productList);
         productsListView.setAdapter(productAdapter);
     }
 }
