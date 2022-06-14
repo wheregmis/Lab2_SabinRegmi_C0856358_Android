@@ -76,7 +76,6 @@ public class ProductAdapter extends ArrayAdapter {
                 etDesc.setText(product.getDescription());
                 etPrice.setText(String.valueOf(product.getPrice()));
 
-
                 view.findViewById(R.id.btn_update).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
